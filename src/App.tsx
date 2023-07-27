@@ -24,7 +24,7 @@ function App() {
   const [booleanBoard, setBooleanBoard] = useState<boolean[]>(
     new Array(size).fill(false)
   );
-
+  /* 
   const handleClick = useCallback(
     (index: number) => {
       const booleanBoardCopy = [...booleanBoard];
@@ -55,8 +55,49 @@ function App() {
       setBooleanBoard(booleanBoardCopy);
     },
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [booleanBoard]
+    [board, booleanBoard, settings.cols, settings.rows]
+  ); */
+  const handleClick = useCallback(
+    (index: number) => {
+      const queue: number[] = []; // Create a queue to store the cells to be updated
+
+      const enqueue = (cellIndex: number) => {
+        if (!queue.includes(cellIndex)) {
+          queue.push(cellIndex);
+        }
+      };
+
+      const processQueue = () => {
+        while (queue.length > 0) {
+          const currentIndex = queue.shift()!; //Pide el index y lo quita de la cola
+
+          if (board[currentIndex] === 0 && !booleanBoard[currentIndex]) {
+            booleanBoard[currentIndex] = true;
+            const neighbours = getNeighbours(
+              settings.rows,
+              settings.cols,
+              currentIndex
+            );
+            for (const neighbour of neighbours) {
+              enqueue(neighbour);
+            }
+          } else {
+            booleanBoard[currentIndex] = true;
+          }
+        }
+
+        setBooleanBoard([...booleanBoard]); // Update the booleanBoard state after all cells have been processed
+      };
+
+      if (board[index] === 0) {
+        enqueue(index);
+        processQueue();
+      } else {
+        booleanBoard[index] = true;
+        setBooleanBoard([...booleanBoard]);
+      }
+    },
+    [settings, booleanBoard, board]
   );
 
   useEffect(() => {
