@@ -1,29 +1,27 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
-main {
-  display: grid;
-  place-items: center;
-  grid-template-columns: repeat();
-}
-
-.board {
-  display: grid;
-  place-items: center;
-  gap: 0.2rem;
-  grid-template-columns: repeat(20, 1fr);
-}
 .cell {
+  user-select: none;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 1rem;
-  padding: 0.5rem;
+
+  width: 100%;
   aspect-ratio: 1/1;
+  border-radius: 0.2rem;
+  background: rgba(255, 255, 255, 0.1);
+}
+.panel {
+  user-select: none;
+  padding-block: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
   border-radius: 0.2rem;
   background: rgba(255, 255, 255, 0.1);
 }
