@@ -70,7 +70,7 @@ function App() {
   return (
     <>
       <header>
-        <Panel />
+        <Panel settings={settings} />
       </header>
       <main className="board">
         {board.map((cellValue, index) => (
