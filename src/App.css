@@ -2,18 +2,6 @@
   text-align: center;
 }
 
-.cell {
-  user-select: none;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  aspect-ratio: 1/1;
-  border-radius: 0.2rem;
-  background: rgba(255, 255, 255, 0.1);
-}
 .panel {
   position: relative;
   user-select: none;
@@ -29,8 +17,49 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
+.cell {
+  user-select: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 0.2rem;
+  background: rgba(255, 255, 255, 0.1);
+
+  font-weight: 700;
+  font-size: 1.2rem;
+
+  transition: background 0.2s ease;
+}
+.cell > * {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.number {
+  background: rgba(255, 255, 255, 0.2);
+}
+.number > * {
+  opacity: 1;
+}
+.mine {
+  background: rgba(220, 80, 80, 1);
+}
+
+.zero {
+  background: rgba(255, 255, 255, 0.3);
+}
+
 @media screen and (max-width: 600px) {
   #root {
     padding: 1rem;
   }
+}
+
+@media screen and (max-width: 1280px) {
+  /*  .panel {
+    width: 100vw;
+  } */
 }

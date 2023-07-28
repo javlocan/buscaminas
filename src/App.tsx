@@ -10,6 +10,7 @@ interface Settings {
   cols: number;
   mines: number;
 }
+
 function App() {
   const [settings, setSettings] = useState<Settings>({
     rows: 10,
@@ -24,39 +25,15 @@ function App() {
   const [booleanBoard, setBooleanBoard] = useState<boolean[]>(
     new Array(size).fill(false)
   );
-  /* 
-  const handleClick = useCallback(
-    (index: number) => {
-      const booleanBoardCopy = [...booleanBoard];
-      const showArray: number[] = [index];
 
-      if (board[index] == 0) {
-        handleZeros(index);
-      }
+  const initializeBoard = useCallback(() => {
+    setBooleanBoard(new Array(size).fill(false));
+    setTimeout(() => {
+      setBoard(getBoardArray(settings.rows, settings.cols, settings.mines));
+    }, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [settings]);
 
-      function handleZeros(index: number) {
-        const neighbours = getNeighbours(settings.rows, settings.cols, index);
-        const trackArray = [...showArray];
-
-        // le meto al array final los vecinos: ya hay 9 cosas
-        // entonces voy vecino por vecino y digo ¿es cero?
-        neighbours.forEach((neighbour) => {
-          if (board[neighbour] === 0 && !trackArray.includes(neighbour)) {
-            // si lo es y no está en showArray, vuelvo a llamar la funcion pero en el lugar del vecino...
-            // *** entonces: le meto al array los NUEVOS VECINOS - ya hay una capa más
-            handleZeros(neighbour);
-          }
-          showArray.push(...neighbours);
-        });
-      }
-      showArray.forEach((index) => {
-        booleanBoardCopy[index] = true;
-      });
-      setBooleanBoard(booleanBoardCopy);
-    },
-
-    [board, booleanBoard, settings.cols, settings.rows]
-  ); */
   const handleClick = useCallback(
     (index: number) => {
       const queue: number[] = []; // Create a queue to store the cells to be updated
@@ -90,14 +67,29 @@ function App() {
       };
 
       if (board[index] === 0) {
+        // Si el valor de la casilla es 0, esto
+
         enqueue(index);
         processQueue();
       } else {
+        // El resto de valores
+
+        if (board[index] === -1) {
+          // Con la excepción de las minas
+          for (let i = 0; i < booleanBoard.length; i++) {
+            if (board[i] === -1) {
+              booleanBoard[i] = true;
+            }
+          }
+
+          setTimeout(initializeBoard, 500);
+        }
+
         booleanBoard[index] = true;
         setBooleanBoard([...booleanBoard]);
       }
     },
-    [settings, booleanBoard, board]
+    [board, booleanBoard, settings.rows, settings.cols, initializeBoard]
   );
 
   useEffect(() => {

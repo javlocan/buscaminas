@@ -7,6 +7,20 @@ interface Props {
   handleClick: (index: number) => void;
 }
 
+const visual: Record<number, string> = {
+  "-1": "mine",
+  "0": "zero",
+  "1": "number",
+  "2": "number",
+  "3": "number",
+  "4": "number",
+  "5": "number",
+  "6": "number",
+  "7": "number",
+  "8": "number",
+  "9": "number",
+};
+
 export const Cell: React.FC<Props> = React.memo((props: Props) => {
   const { index, value, show, handleClick } = props;
 
@@ -15,8 +29,12 @@ export const Cell: React.FC<Props> = React.memo((props: Props) => {
   }, [show, index]);
 
   return (
-    <div className="cell" id={`${index}`} onClick={() => handleClick(index)}>
-      {show ? value : ""}
+    <div
+      id={`${index}`}
+      onClick={() => handleClick(index)}
+      className={`cell ${show ? visual[value] : ""}`}
+    >
+      <span>{value}</span>
     </div>
   );
 });
