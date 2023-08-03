@@ -5,7 +5,7 @@
 .panel {
   position: relative;
   user-select: none;
-  padding-block: 1rem;
+  padding-block: 0.5rem;
 
   display: grid;
   grid-template-columns: 5fr 2fr 1fr;
@@ -16,6 +16,53 @@
   border-radius: 0.2rem;
   background: rgba(255, 255, 255, 0.1);
 }
+
+/*--------- CELDAS ---------*/
+
+
+.container {
+  user-select: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height:100%;
+  aspect-ratio: 1/1;
+  border-radius: 0.2rem;
+  background: rgba(255, 255, 255, 0.1);
+
+  font-weight: 700;
+  font-size: 1.2rem;
+
+
+}
+
+.c {  
+  border-radius: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  will-change: transform, opacity;
+ 
+}
+
+.front,
+.back {
+  background-size: cover;
+}
+
+.back {
+  
+  background-color: black;}
+
+.front {
+ width:100%;
+ height:100%;
+  background-color: red;}
 
 .cell {
   user-select: none;
@@ -63,3 +110,6 @@
     width: 100vw;
   } */
 }
+
+
+

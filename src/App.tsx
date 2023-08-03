@@ -7,7 +7,7 @@ import "./App.css";
 
 interface Settings {
   rows: number;
-  cols: number;
+  cols: number;  
   mines: number;
 }
 
