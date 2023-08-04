@@ -2,67 +2,56 @@
   text-align: center;
 }
 
+/*--------- PANEL ---------*/
+
 .panel {
   position: relative;
   user-select: none;
-  padding-block: 0.5rem;
+  padding: 0.25rem;
+  font-family: "DIGI", monospace;
 
-  display: grid;
-  grid-template-columns: 5fr 2fr 1fr;
-  place-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   gap: 1rem;
 
-  width: 100%;
   border-radius: 0.2rem;
   background: rgba(255, 255, 255, 0.1);
+}
+
+.panel h1 {
+  font-size: 3rem;
+}
+
+.display {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #242424;
+  padding-inline: 1rem;
+  border-radius: 0.5rem;
+  gap: 1rem;
+}
+.display span {
+  font-size: 2rem;
+}
+
+#cellcount {
+  color: green;
+}
+#minecount {
+  color: red;
+}
+#totalseconds {
+  color: blue;
+}
+#bestscore {
+  color: yellow;
 }
 
 /*--------- CELDAS ---------*/
-
-
-.container {
-  user-select: none;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  height:100%;
-  aspect-ratio: 1/1;
-  border-radius: 0.2rem;
-  background: rgba(255, 255, 255, 0.1);
-
-  font-weight: 700;
-  font-size: 1.2rem;
-
-
-}
-
-.c {  
-  border-radius: 0.2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  cursor: pointer;
-  will-change: transform, opacity;
- 
-}
-
-.front,
-.back {
-  background-size: cover;
-}
-
-.back {
-  
-  background-color: black;}
-
-.front {
- width:100%;
- height:100%;
-  background-color: red;}
 
 .cell {
   user-select: none;
@@ -78,13 +67,35 @@
 
   font-weight: 700;
   font-size: 1.2rem;
-
-  transition: background 0.2s ease;
 }
 .cell > * {
   opacity: 0;
-  transition: opacity 0.2s ease;
 }
+
+.c {
+  user-select: none;
+  border-radius: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  will-change: transform, opacity;
+}
+
+.front,
+.back {
+  background-size: cover;
+}
+
+.back {
+  background-color: black;
+}
+
+.front {
+  width: 100%;
+  height: 100%;
+}
+
 .number {
   background: rgba(255, 255, 255, 0.2);
 }
@@ -99,6 +110,39 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
+/*--------- MODAL ---------*/
+
+.modal {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  transition: opacity 0.2s ease-in-out;
+}
+.modal-content {
+  position: relative;
+  background-color: rgb(200, 200, 200);
+  padding: 4rem;
+  border-radius: 0.25rem;
+}
+.close {
+  opacity: 0.8;
+  cursor: pointer;
+  position: absolute;
+  top: 0.15rem;
+  right: 0.15rem;
+  background: none;
+  border: none;
+  color: black;
+}
+
 @media screen and (max-width: 600px) {
   #root {
     padding: 1rem;
@@ -110,6 +154,3 @@
     width: 100vw;
   } */
 }
-
-
-
