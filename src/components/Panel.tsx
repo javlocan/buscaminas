@@ -1,36 +1,28 @@
+import React from "react";
+import { BoardAction } from "../interfaces";
+
 interface Props {
-  setOpenSettings: (open: boolean) => void;
+  dispatch: React.Dispatch<BoardAction>;
   settings: Settings;
-  remainingCount: number;
+  cellsLeft: number;
+  minesLeft: number;
   totalSeconds: number;
   bestScore: number;
-  pause: () => void;
 }
 interface Settings {
   rows: number;
   cols: number;
   mines: number;
 }
-export const Panel = (props: Props) => {
-  const {
-    settings,
-    remainingCount,
-    setOpenSettings,
-    totalSeconds,
-    bestScore,
-    pause,
-  } = props;
+export const Panel: React.FC<Props> = React.memo((props: Props) => {
+  const { cellsLeft, minesLeft, dispatch, totalSeconds, bestScore } = props;
 
   return (
     <div className="panel">
       <h1>Buscaminas</h1>
       <button
         style={{ width: "100px" }}
-        onClick={() => {
-          pause();
-
-          setOpenSettings(true);
-        }}
+        onClick={() => dispatch({ type: "PAUSE" })}
       >
         Opciones
       </button>
@@ -44,10 +36,10 @@ export const Panel = (props: Props) => {
           </span>
         </div>
         <div className="display">
-          <span id="cellcount">{remainingCount}</span>
-          <span id="minecount">{settings.mines}</span>
+          <span id="cellcount">{cellsLeft}</span>
+          <span id="minecount">{minesLeft}</span>
         </div>
       </div>
     </div>
   );
-};
+});

@@ -1,3 +1,2 @@
-export * from "./getBoardArray";
-export * from "./getRandomNumbers";
-export * from "./getNeighbours";
+export * from "./getNewBoard";
+export * from "./boardReducer";
