@@ -5,6 +5,7 @@ const DEFAULT_SETTINGS = { rows: 10, cols: 20, mines: 20 };
 
 export const getNewBoard = (newSettings?: Settings): Board => {
   newSettings = newSettings || DEFAULT_SETTINGS;
+
   return {
     settings: {
       rows: newSettings.rows,
@@ -14,7 +15,6 @@ export const getNewBoard = (newSettings?: Settings): Board => {
     cellsLeft: newSettings.rows * newSettings.cols - newSettings.mines,
     minesLeft: newSettings.mines,
     cells: getNewCellsArray(
-      // ARREGLAR LA LOGICA...
       newSettings.rows,
       newSettings.cols,
       newSettings.mines

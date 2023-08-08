@@ -3,35 +3,98 @@ import { useStopwatch } from "react-timer-hook";
 
 import "./App.css";
 
-import { getNewBoard, boardReducer } from "./utils";
+import { getNewBoard } from "./utils";
 
 import { Cell, Modal, Panel } from "./components";
+import { SettingsModal } from "./components/SettingsModal";
+import { Board, BoardAction } from "./interfaces";
+import { handleZeros } from "./utils/handleZeros";
 
 function App() {
-  const [board, dispatch] = useReducer(boardReducer, null, () => getNewBoard());
-
-  const { totalSeconds } = useStopwatch({
+  const { isRunning, totalSeconds, pause, start, reset } = useStopwatch({
     autoStart: false,
   });
+
+  const boardReducer = (board: Board, action: BoardAction): Board => {
+    const id = action.id as number;
+    switch (action.type) {
+      case "LEFT_CLICK":
+        if (!isRunning) {
+          start();
+        }
+        switch (action.value) {
+          case -1:
+            board.cells[id].status = "UP";
+            return { ...board, cellsLeft: board.cellsLeft - 1 };
+          case 0:
+            return { ...handleZeros(board, id) };
+          case 1:
+          case 2:
+          case 3:
+          case 4:
+          case 5:
+          case 6:
+          case 7:
+          case 8:
+            if (board.cells[id].status !== "DOWN") {
+              return { ...board };
+            } else {
+              board.cells[id].status = "UP";
+              return { ...board, cellsLeft: board.cellsLeft - 1 };
+            }
+        }
+        throw new Error("What have we done!? We've invented new values!");
+
+      case "RIGHT_CLICK":
+        if (board.cells[id].status === "DOWN") {
+          board.cells[id].status = "FLAG";
+          return { ...board, minesLeft: board.minesLeft - 1 };
+        } else if (board.cells[id].status === "FLAG") {
+          board.cells[id].status = "DOWN";
+          return { ...board, minesLeft: board.minesLeft + 1 };
+        }
+        return { ...board };
+      case "PAUSE":
+        pause();
+        return { ...board, boardState: "PAUSED" };
+      case "LOSE":
+        reset();
+        pause();
+        board.cells.forEach((cell) => {
+          if (cell.value === -1) {
+            cell.status = "UP";
+          }
+        });
+        return { ...board, boardState: "LOST" };
+      case "RESET":
+        reset();
+        pause();
+        if (action.settings) {
+          return getNewBoard(action.settings);
+        }
+        return getNewBoard();
+      case "RESUME":
+        start();
+        return { ...board, boardState: "PLAYING" };
+      default:
+        return board;
+    }
+  };
+
+  const [board, dispatch] = useReducer(boardReducer, null, () => getNewBoard());
+
   const Storage = window.localStorage;
 
   useEffect(() => {
     const HTMLBoard = window.document.getElementsByClassName(
       "board"
     )[0] as HTMLElement;
-    HTMLBoard.style.gridTemplateColumns = `repeat(${board.settings.cols}, minmax(50px,1fr))`;
-    HTMLBoard.style.gridTemplateRows = `repeat(${board.settings.rows}, minmax(50px,1fr))`;
-  }, [board]);
+    HTMLBoard.style.gridTemplateColumns = `repeat(${board.settings.cols}, minmax(40px,1fr))`;
+    HTMLBoard.style.gridTemplateRows = `repeat(${board.settings.rows}, minmax(40px,1fr))`;
+  }, [board.settings]);
 
-  // Este useEffect controla el contador de celdas restantes
   const bestScore = 120;
-  const handleSettings = () => {
-    dispatch({
-      type: "RESET",
-      settings: { rows: 20, cols: 20, mines: 40 },
-    });
-    return;
-  };
+
   return (
     <>
       <header>
@@ -44,31 +107,25 @@ function App() {
           bestScore={bestScore}
         />
       </header>
-      <main className="board">
-        {board.cells.map((cell) => (
-          <Cell
-            key={cell.id}
-            dispatch={dispatch}
-            index={cell.id}
-            value={cell.value}
-            status={cell.status}
-          />
-        ))}
+      <main className="board--container">
+        <div className="board">
+          {board.cells.map((cell) => (
+            <Cell
+              key={cell.id}
+              dispatch={dispatch}
+              index={cell.id}
+              value={cell.value}
+              status={cell.status}
+            />
+          ))}
+        </div>
       </main>
-      <Modal open={board.boardState === "PAUSED"}>
-        <p>SETTINGS</p>
-
-        <button onClick={handleSettings}>Save and reset</button>
-        <button
-          className="close"
-          onClick={() => {
-            dispatch({ type: "RESUME" });
-          }}
-        >
-          <img src="/cross.png" alt="close" width="20px" />
-        </button>
-      </Modal>
-      <Modal open={board.boardState === "LOST"}>
+      <SettingsModal
+        settings={board.settings}
+        boardState={board.boardState}
+        dispatch={dispatch}
+      />
+      <Modal open={board.boardState === "LOST"} dispatch={dispatch}>
         {board.cellsLeft === 0 ? (
           <p>
             You won!<br></br>Your time is {Storage.getItem("bestScore")}
@@ -76,7 +133,11 @@ function App() {
         ) : (
           <p>You lost!</p>
         )}
-        <button onClick={() => dispatch({ type: "RESET" })}>Restart</button>
+        <button
+          onClick={() => dispatch({ type: "RESET", settings: board.settings })}
+        >
+          Restart
+        </button>
       </Modal>
     </>
   );

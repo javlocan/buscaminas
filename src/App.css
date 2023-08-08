@@ -1,57 +1,132 @@
-#root {
-  text-align: center;
-}
-
 /*--------- PANEL ---------*/
 
 .panel {
-  position: relative;
-  user-select: none;
-  padding: 0.25rem;
-  font-family: "DIGI", monospace;
-
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
 
-  border-radius: 0.2rem;
-  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+  user-select: none;
+  padding-bottom: 0.5rem;
+  padding-inline: 5vw;
+  font-family: "DIGI", monospace;
 }
 
 .panel h1 {
-  font-size: 3rem;
+  margin-left: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+.settings--button {
+  opacity: 0.9;
+  cursor: pointer;
+  width: 1.3rem;
+  transition: scale 0.1s;
+  margin-inline: 0.25rem;
+}
+.settings--button:hover {
+  scale: 1.2;
+  transition: scale 0.1s;
+}
+
+.display--container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+
+  gap: 0.25rem;
+  background-color: #242424;
+  border-radius: 0.25rem;
+  z-index: -2;
 }
 
 .display {
+  position: relative;
+  font-size: 1.6rem;
+  z-index: 10;
+}
+
+.display::before {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.1);
+  content: "888";
+}
+.display::after {
+  position: absolute;
+  color: white;
+  font-size: 0.5rem;
+  left: 0.1rem;
+  top: 0.1rem;
+}
+#cellsleft {
+  color: rgba(0, 128, 0, 1);
+  text-shadow: 0px 0px 5px rgba(0, 128, 0, 0.2);
+}
+#minesleft {
+  color: rgba(200, 0, 0, 1);
+  text-shadow: 0px 0px 5px rgba(200, 0, 0, 0.3);
+}
+#totalseconds {
+  color: rgba(0, 0, 230, 1);
+  text-shadow: 0px 0px 5px rgba(0, 0, 230, 0.3);
+}
+#bestscore {
+  color: rgba(255, 255, 0, 1);
+  text-shadow: 0px 0px 5px rgba(255, 255, 0, 0.2);
+}
+
+#bestscore::after {
+  content: "best";
+}
+#totalseconds::after {
+  content: "time";
+}
+
+#minesleft::after {
+  content: "mines";
+}
+#cellsleft::after {
+  content: "cells";
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 0.25rem;
+}
+.number-label {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
-  background-color: #242424;
-  padding-inline: 1rem;
-  border-radius: 0.5rem;
-  gap: 1rem;
-}
-.display span {
-  font-size: 2rem;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: black;
 }
 
-#cellcount {
-  color: green;
-}
-#minecount {
-  color: red;
-}
-#totalseconds {
-  color: blue;
-}
-#bestscore {
-  color: yellow;
+.number-input {
+  font-family: "DIGI", monospace;
+  font-size: 1rem;
+  text-align: center;
+  max-width: 3rem;
+  padding: 0.2rem;
 }
 
 /*--------- CELDAS ---------*/
+
+.board {
+  width: 100%;
+  margin: 0 auto;
+
+  display: grid;
+  place-items: center;
+
+  gap: 0.2rem;
+}
 
 .cell {
   user-select: none;
@@ -66,7 +141,7 @@
   background: rgba(255, 255, 255, 0.1);
 
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1rem;
 
   transition: background 0.1s ease-in-out;
 }
@@ -121,6 +196,7 @@
 
 .modal {
   position: absolute;
+  display: block;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
@@ -134,6 +210,7 @@
   transition: opacity 0.2s ease-in-out;
 }
 .modal-content {
+  max-width: 80vw;
   position: relative;
   background-color: rgba(150, 150, 150, 0.8);
   padding: 2rem 4rem;
@@ -150,14 +227,14 @@
   color: black;
 }
 
-@media screen and (max-width: 600px) {
-  #root {
-    padding: 1rem;
+@media (min-width: 600px) {
+  .panel {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    justify-content: space-between;
+    padding: 0.5rem;
   }
-}
-
-@media screen and (max-width: 1280px) {
-  /*  .panel {
-    width: 100vw;
-  } */
+  .display--container {
+    max-width: 16rem;
+  }
 }

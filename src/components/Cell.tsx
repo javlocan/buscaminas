@@ -23,13 +23,13 @@ export const Cell: React.FC<Props> = React.memo((props: Props) => {
     }, 500);
   }
 
-  console.log(
+  /*   console.log(
     "Cell with id=",
     index,
     "with status ",
     status,
     " has been rendered"
-  );
+  ); */
 
   return (
     <div

@@ -20,25 +20,26 @@ export const Panel: React.FC<Props> = React.memo((props: Props) => {
   return (
     <div className="panel">
       <h1>Buscaminas</h1>
-      <button
-        style={{ width: "100px" }}
+      <img
+        src="/settings.png"
+        alt="settings"
+        className="settings--button"
         onClick={() => dispatch({ type: "PAUSE" })}
-      >
-        Opciones
-      </button>
-      <div style={{ display: "flex", gap: "0.5rem", paddingInline: "0.25rem" }}>
-        <div className="display">
-          <span id="bestscore">{bestScore.toString().padStart(3, "0")}</span>
-        </div>
-        <div className="display">
-          <span id="totalseconds">
-            {totalSeconds.toString().padStart(3, "0")}
-          </span>
-        </div>
-        <div className="display">
-          <span id="cellcount">{cellsLeft}</span>
-          <span id="minecount">{minesLeft}</span>
-        </div>
+      />
+
+      <div className="display--container">
+        <span id="bestscore" className="display">
+          {bestScore.toString().padStart(3, "0")}
+        </span>
+        <span id="totalseconds" className="display">
+          {totalSeconds.toString().padStart(3, "0")}
+        </span>
+        <span id="cellsleft" className="display">
+          {cellsLeft.toString().padStart(3, "0")}
+        </span>
+        <span id="minesleft" className="display">
+          {minesLeft.toString().padStart(3, "0")}
+        </span>
       </div>
     </div>
   );
