@@ -14,14 +14,18 @@ export const AllModals = (props: Props) => {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;
-    const settings = newSettings(form.size.value, form.difficulty.value);
+    const settings = newSettings(
+      form.size.value,
+      form.difficulty.value,
+      form.orientation.value
+    );
 
     dispatch({
       type: "RESET",
       settings: settings,
     });
-    return;
   };
+
   switch (boardState) {
     case "SETTINGS":
       return (
@@ -148,6 +152,19 @@ export const AllModals = (props: Props) => {
                 </label>
               </div>
             </div>
+            <label>
+              horizontal
+              <input
+                type="range"
+                defaultValue={0}
+                min="0"
+                max="1"
+                step="1"
+                name="orientation"
+                style={{ width: "1.5rem", marginInline: "0.5rem" }}
+              />
+              vertical
+            </label>
             <button type="submit">Save and play!</button>
             <button
               type="button"
@@ -194,23 +211,34 @@ export const AllModals = (props: Props) => {
   }
 };
 
-const newSettings = (size: string, difficulty: string): Settings => {
+const newSettings = (
+  size: string,
+  difficulty: string,
+  orientation: number
+): Settings => {
   const SIZE: Record<string, Record<string, number>> = {
-    tiny: { rows: 8, cols: 8 },
+    tiny: { rows: 5, cols: 10 },
     small: { rows: 10, cols: 20 },
-    medium: { rows: 16, cols: 30 },
-    large: { rows: 30, cols: 16 },
-    huge: { rows: 30, cols: 30 },
+    medium: { rows: 15, cols: 30 },
+    large: { rows: 20, cols: 40 },
+    huge: { rows: 30, cols: 60 },
   };
   const n = SIZE[size].rows * SIZE[size].cols;
   console.log(n);
   const DIFFICULTY: Record<string, number> = {
-    ez: Math.floor(n * 0.08),
-    easy: Math.floor(n * 0.12),
-    normal: Math.floor(n * 0.15),
-    hard: Math.floor(n * 0.2),
-    insane: Math.floor(n * 0.25),
+    ez: Math.floor(n * 0.07),
+    easy: Math.floor(n * 0.1),
+    normal: Math.floor(n * 0.125),
+    hard: Math.floor(n * 0.15),
+    insane: Math.floor(n * 0.2),
   };
+  if (orientation) {
+    return {
+      rows: SIZE[size].cols,
+      cols: SIZE[size].rows,
+      mines: DIFFICULTY[difficulty],
+    };
+  }
   return {
     rows: SIZE[size].rows,
     cols: SIZE[size].cols,

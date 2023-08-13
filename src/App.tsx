@@ -69,6 +69,7 @@ function App() {
       case "WIN":
         pause();
         reset();
+        pause();
 
         return { ...board, boardState: "WON" };
       case "RESET":
@@ -98,7 +99,16 @@ function App() {
     HTMLBoard.style.gridTemplateRows = `repeat(${board.settings.rows}, minmax(40px,1fr))`;
   }, [board.settings]);
 
+  useEffect(() => {
+    if (board.cellsLeft === 0) {
+      setTimeout(() => {
+        dispatch({ type: "WIN" });
+      }, 800);
+    }
+  }, [board.cellsLeft]);
+
   const bestScore = 999;
+
   useEffect(() => {
     setTimeout(() => {
       alert(
