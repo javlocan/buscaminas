@@ -244,6 +244,23 @@
   color: black;
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.options--container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (min-width: 600px) {
   .panel {
     flex-wrap: nowrap;
