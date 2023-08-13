@@ -82,8 +82,7 @@ function App() {
       case "RESUME":
         start();
         return { ...board, boardState: "PLAYING" };
-      case "MOCKWIN":
-        return { ...board, cellsLeft: 0, boardState: "WON" };
+
       default:
         return board;
     }
@@ -130,7 +129,6 @@ function App() {
         />
       </header>
 
-      <button onClick={() => dispatch({ type: "MOCKWIN" })}> MockWin</button>
       <main>
         <div className="board board--with-limits">
           {board.cells.map((cell) => (

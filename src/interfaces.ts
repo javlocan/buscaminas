@@ -24,7 +24,6 @@ export interface BoardAction {
 type BoardActionTypes = keyof typeof BOARD_ACTION_TYPES;
 
 export enum BOARD_ACTION_TYPES {
-  MOCKWIN,
   WIN,
   LOSE,
   RESET,

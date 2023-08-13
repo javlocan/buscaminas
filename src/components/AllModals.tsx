@@ -19,6 +19,14 @@ export const AllModals = (props: Props) => {
       form.difficulty.value,
       form.orientation.value
     );
+    console.log(
+      form.orientation.value,
+      newSettings(
+        form.size.value,
+        form.difficulty.value,
+        form.orientation.value
+      )
+    );
 
     dispatch({
       type: "RESET",
@@ -156,10 +164,10 @@ export const AllModals = (props: Props) => {
               horizontal
               <input
                 type="range"
-                defaultValue={0}
-                min="0"
-                max="1"
-                step="1"
+                defaultValue={1}
+                min={0}
+                max={1}
+                step={1}
                 name="orientation"
                 style={{ width: "1.5rem", marginInline: "0.5rem" }}
               />
@@ -214,7 +222,7 @@ export const AllModals = (props: Props) => {
 const newSettings = (
   size: string,
   difficulty: string,
-  orientation: number
+  orientation: string
 ): Settings => {
   const SIZE: Record<string, Record<string, number>> = {
     tiny: { rows: 5, cols: 10 },
@@ -224,7 +232,7 @@ const newSettings = (
     huge: { rows: 30, cols: 60 },
   };
   const n = SIZE[size].rows * SIZE[size].cols;
-  console.log(n);
+
   const DIFFICULTY: Record<string, number> = {
     ez: Math.floor(n * 0.07),
     easy: Math.floor(n * 0.1),
@@ -232,16 +240,12 @@ const newSettings = (
     hard: Math.floor(n * 0.15),
     insane: Math.floor(n * 0.2),
   };
-  if (orientation) {
-    return {
-      rows: SIZE[size].cols,
-      cols: SIZE[size].rows,
-      mines: DIFFICULTY[difficulty],
-    };
-  }
+
+  console.log(orientation);
+
   return {
-    rows: SIZE[size].rows,
-    cols: SIZE[size].cols,
+    rows: orientation === "1" ? SIZE[size].cols : SIZE[size].rows,
+    cols: orientation === "1" ? SIZE[size].rows : SIZE[size].cols,
     mines: DIFFICULTY[difficulty],
   };
 };
