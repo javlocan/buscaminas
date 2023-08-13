@@ -64,7 +64,13 @@ function App() {
             cell.status = "UP";
           }
         });
+
         return { ...board, boardState: "LOST" };
+      case "WIN":
+        pause();
+        reset();
+
+        return { ...board, boardState: "WON" };
       case "RESET":
         reset();
         pause();
@@ -75,6 +81,8 @@ function App() {
       case "RESUME":
         start();
         return { ...board, boardState: "PLAYING" };
+      case "MOCKWIN":
+        return { ...board, cellsLeft: 0, boardState: "WON" };
       default:
         return board;
     }
@@ -90,7 +98,14 @@ function App() {
     HTMLBoard.style.gridTemplateRows = `repeat(${board.settings.rows}, minmax(40px,1fr))`;
   }, [board.settings]);
 
-  const bestScore = 120;
+  const bestScore = 999;
+  useEffect(() => {
+    setTimeout(() => {
+      alert(
+        "NOTE* SITE UNDER CONSTRUCTION\n- bestScore not working\n- styling is on it's way\n- please! have fun :)"
+      );
+    }, 500);
+  }, []);
 
   return (
     <>
@@ -104,6 +119,8 @@ function App() {
           bestScore={bestScore}
         />
       </header>
+
+      <button onClick={() => dispatch({ type: "MOCKWIN" })}> MockWin</button>
       <main>
         <div className="board board--with-limits">
           {board.cells.map((cell) => (

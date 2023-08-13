@@ -166,13 +166,29 @@ export const AllModals = (props: Props) => {
     case "LOST":
       return (
         <Modal dispatch={dispatch}>
-          <p>You lost!</p>
+          <div className="options--container">
+            <p>you lost!</p>
 
-          <button
-            onClick={() => dispatch({ type: "RESET", settings: settings })}
-          >
-            Restart
-          </button>
+            <button
+              onClick={() => dispatch({ type: "RESET", settings: settings })}
+            >
+              try again
+            </button>
+          </div>
+        </Modal>
+      );
+    case "WON":
+      return (
+        <Modal dispatch={dispatch}>
+          <div className="options--container">
+            <p>you won! your time is</p>
+
+            <button
+              onClick={() => dispatch({ type: "RESET", settings: settings })}
+            >
+              play again
+            </button>
+          </div>
         </Modal>
       );
   }
