@@ -5,8 +5,7 @@ import "./App.css";
 
 import { getNewBoard } from "./utils";
 
-import { Cell, Modal, Panel } from "./components";
-import { SettingsModal } from "./components/SettingsModal";
+import { Cell, Panel, AllModals } from "./components";
 import { Board, BoardAction } from "./interfaces";
 import { handleZeros } from "./utils/handleZeros";
 
@@ -56,7 +55,7 @@ function App() {
         return { ...board };
       case "PAUSE":
         pause();
-        return { ...board, boardState: "PAUSED" };
+        return { ...board, boardState: "SETTINGS" };
       case "LOSE":
         reset();
         pause();
@@ -82,8 +81,6 @@ function App() {
   };
 
   const [board, dispatch] = useReducer(boardReducer, null, () => getNewBoard());
-
-  const Storage = window.localStorage;
 
   useEffect(() => {
     const HTMLBoard = window.document.getElementsByClassName(
@@ -120,25 +117,11 @@ function App() {
           ))}
         </div>
       </main>
-      <SettingsModal
+      <AllModals
         settings={board.settings}
         boardState={board.boardState}
         dispatch={dispatch}
       />
-      <Modal open={board.boardState === "LOST"} dispatch={dispatch}>
-        {board.cellsLeft === 0 ? (
-          <p>
-            You won!<br></br>Your time is {Storage.getItem("bestScore")}
-          </p> // SWITCH
-        ) : (
-          <p>You lost!</p>
-        )}
-        <button
-          onClick={() => dispatch({ type: "RESET", settings: board.settings })}
-        >
-          Restart
-        </button>
-      </Modal>
     </>
   );
 }

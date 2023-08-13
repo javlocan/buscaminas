@@ -9,7 +9,7 @@ type BoardState = keyof typeof BOARD_STATE;
 
 enum BOARD_STATE {
   DEFAULT,
-  PAUSED,
+  SETTINGS,
   PLAYING,
   WON,
   LOST,

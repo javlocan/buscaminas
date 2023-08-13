@@ -126,8 +126,8 @@
 /*--------- CELDAS ---------*/
 
 .board {
+  margin: auto;
   width: fit-content;
-  margin: 0 auto;
 
   display: grid;
   place-items: center;
