@@ -19,14 +19,6 @@ export const Panel: React.FC<Props> = React.memo((props: Props) => {
 
   return (
     <div className="panel">
-      <h1>Buscaminas</h1>
-      <img
-        src="/settings.png"
-        alt="settings"
-        className="settings--button"
-        onClick={() => dispatch({ type: "PAUSE" })}
-      />
-
       <div className="display--container">
         <span id="bestscore" className="display">
           {bestScore.toString().padStart(3, "0")}
@@ -41,6 +33,12 @@ export const Panel: React.FC<Props> = React.memo((props: Props) => {
           {minesLeft.toString().padStart(3, "0")}
         </span>
       </div>
+      <img
+        src="/settings.png"
+        alt="settings"
+        className="settings--button"
+        onClick={() => dispatch({ type: "PAUSE" })}
+      />
     </div>
   );
 });

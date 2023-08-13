@@ -107,8 +107,8 @@ function App() {
           bestScore={bestScore}
         />
       </header>
-      <main className="board--container">
-        <div className="board">
+      <main>
+        <div className="board board--with-limits">
           {board.cells.map((cell) => (
             <Cell
               key={cell.id}
